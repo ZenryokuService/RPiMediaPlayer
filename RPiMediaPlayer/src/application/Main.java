@@ -57,7 +57,7 @@ public class Main extends Application {
 	 */
 	public void loadProperties() {
 		// java.nio.PathでJavaFxのPathではない
-		Path propFile = Paths.get("application.properties");
+		Path propFile = Paths.get("resources/application.properties");
 		try {
 			// プロパティファイルの読み込み
 			prop.load(Files.newInputStream(propFile));
@@ -68,6 +68,13 @@ public class Main extends Application {
 		}
 	}
 
+	/**
+	 * ロードしたプロパティファイルのキーを返却。
+	 * @return keySet
+	 */
+	public Set<String> getKeySet() {
+		return keySet;
+	}
 	/**
 	 * application.propertiesから値を取得する。
 	 * 
