@@ -5,7 +5,13 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
-
+/**
+ * ラズパイ上でJavaFXを起動、Youtubeなどのメディアプレーヤーアプリを作成。
+ * 
+ * @author takunoji
+ * @see https://github.com/ZenryokuService/RPiMediaPlayer
+ * 2019/12/01
+ */
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
