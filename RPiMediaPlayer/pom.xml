@@ -4,6 +4,23 @@
   <artifactId>RPiMediaPlayer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>RPi メディアプレーヤー</name>
+
+<!-- 必要な情報をプロパティとしてもつ -->
+  <properties>
+      <java.version>1.8</java.version>
+      <maven.compiler.target>${java.version}</maven.compiler.target>
+      <maven.compiler.source>${java.version}</maven.compiler.source>
+  </properties>  
+<!-- 使用したいライブラリ(依存性)の設定 -->
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+<!-- ビルドの設定 -->
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -23,6 +40,49 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+    <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <mainClass>zenryokuservice.socket.server.SocketServerBasic</mainClass>
+            <classpathPrefix>dependency-jars/</classpathPrefix>
+          </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+      </configuration>
+      <executions>
+        <execution>
+          <id>make-assembly</id> <!-- this is used for inheritance merges -->
+          <phase>package</phase> <!-- bind to the packaging phase -->
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-dependency-plugin</artifactId>
+      <version>2.5.1</version>
+      <executions>
+        <execution>
+          <id>copy-dependencies</id>
+          <phase>package</phase>
+          <goals>
+          <goal>copy-dependencies</goal>
+          </goals>
+          <configuration>
+           <outputDirectory>
+             ${project.build.directory}/dependency-jars/
+           </outputDirectory>
+          </configuration>
+         </execution>
+       </executions>
+     </plugin>
     </plugins>
   </build>
 </project>
