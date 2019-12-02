@@ -1,5 +1,7 @@
 package application;
 	
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +27,10 @@ public class Main extends Application {
 	private Properties prop;
 	/** プロパティファイルのキー・セット */
 	private Set<String> keySet;
+	/** 最大ウィンドウサイズ(幅) */
+	private double windowWidth;
+	/** 最大ウィンドウサイズ(高さ) */
+	private int windowHeight;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -46,6 +52,8 @@ public class Main extends Application {
 	/** コンストラクタ */
 	public Main() {
 		prop = new Properties();
+		windowWidth = 0;
+		windowHeight = 0;
 	}
 	/*****************************************
 	 * 必要な処理を行うメソッド群(JUniテストを行う)*
@@ -97,4 +105,43 @@ public class Main extends Application {
 		});
 		return newSet;
 	}
+
+	/**
+	 * 起動しているデバイスの画面サイズを取得する
+	 */
+	private void initWindowInfo() {
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle size = env.getMaximumWindowBounds();
+		windowHeight = size.height;
+		windowWidth = size.width;
+	}
+
+	/**
+	 * @return the windowWidth
+	 */
+	public double getWindowWidth() {
+		return windowWidth;
+	}
+
+	/**
+	 * @param windowWidth the windowWidth to set
+	 */
+	public void setWindowWidth(double windowWidth) {
+		this.windowWidth = windowWidth;
+	}
+
+	/**
+	 * @return the windowHeight
+	 */
+	public int getWindowHeight() {
+		return windowHeight;
+	}
+
+	/**
+	 * @param windowHeight the windowHeight to set
+	 */
+	public void setWindowHeight(int windowHeight) {
+		this.windowHeight = windowHeight;
+	}
+	
 }

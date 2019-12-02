@@ -1,9 +1,12 @@
 package application;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -69,14 +72,43 @@ public class MainTest {
 		result.forEach(System.out::println);
 	}
 
-/** loadProperties()のテスト */
-@Test
-public void testLoadProperties() {
-	System.out.println("*** testLoadProperties ***");
-	target.loadProperties();
-	Set<String> keySet = target.getKeySet();
-	assertNotNull(keySet);
-	keySet.forEach(System.out::println);
-}
+	/** loadProperties()のテスト */
+	@Test
+	public void testLoadProperties() {
+		System.out.println("*** testLoadProperties ***");
+		target.loadProperties();
+		Set<String> keySet = target.getKeySet();
+		assertNotNull(keySet);
+		keySet.forEach(System.out::println);
+	}
 
+	/** 画面サイズの取得テスト */
+	@Test
+	public void testInitWindowInfo() {
+		// privateメソッドの呼び出し
+		try {
+			// メソッドの取得
+			Method mes = target.getClass().getDeclaredMethod("initWindowInfo");
+			// メソッドのアクセス範囲をpublicに変更
+			mes.setAccessible(true);
+			// メソッドの実行(引数も返り値もない
+			mes.invoke(target);
+			
+		} catch (NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// テストの起動確認
+		assertFalse(target.getWindowHeight() == 0);
+		assertFalse(target.getWindowWidth() == 0);
+	}
 }
