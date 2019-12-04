@@ -68,8 +68,10 @@ public class Main extends Application {
 		windowHeight = 0;
 		// プロパティファイルの読み込み
 		prop = new Properties();
+		loadProperties();
 		// ウィンドウ情報の取得(縦横の幅)
 		initWindowInfo();
+		
 	}
 	/*****************************************
 	 * 必要な処理を行うメソッド群(JUniテストを行う)*
