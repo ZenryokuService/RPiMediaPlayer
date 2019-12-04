@@ -14,6 +14,9 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 /**
  * ラズパイ上でJavaFXを起動、Youtubeなどのメディアプレーヤーアプリを作成。
@@ -35,8 +38,18 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			// レイアウト(土台)になるペインを作成
 			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
+
+			// WebView(ブラウザ)の作成
+			WebView browser = new WebView();
+			WebEngine engine = browser.getEngine();
+			engine.load("https://www.youtube.com/watch?v=6qhJsvpd0ds");
+
+			root.setCenter(browser);
+			// 画面を表示する土台(シーン)を作成
+			Scene scene = new Scene(root,this.windowWidth,this.windowHeight);
+			// JavaFX用のCSSを読み込む
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
@@ -51,9 +64,12 @@ public class Main extends Application {
 
 	/** コンストラクタ */
 	public Main() {
-		prop = new Properties();
 		windowWidth = 0;
 		windowHeight = 0;
+		// プロパティファイルの読み込み
+		prop = new Properties();
+		// ウィンドウ情報の取得(縦横の幅)
+		initWindowInfo();
 	}
 	/*****************************************
 	 * 必要な処理を行うメソッド群(JUniテストを行う)*
