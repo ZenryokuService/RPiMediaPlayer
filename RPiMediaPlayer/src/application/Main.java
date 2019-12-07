@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -44,7 +45,9 @@ public class Main extends Application {
 			// WebView(ブラウザ)の作成
 			WebView browser = new WebView();
 			WebEngine engine = browser.getEngine();
-			engine.load("https://www.youtube.com/watch?v=6qhJsvpd0ds");
+			String aaa = getClass().getResource("iframe.html").toExternalForm();
+			System.out.println(aaa);
+			engine.load(aaa);
 
 			root.setCenter(browser);
 			// 画面を表示する土台(シーン)を作成
@@ -52,6 +55,7 @@ public class Main extends Application {
 			// JavaFX用のCSSを読み込む
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setOnCloseRequest(event -> Platform.exit());
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
