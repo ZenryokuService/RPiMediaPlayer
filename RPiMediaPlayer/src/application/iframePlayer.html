@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <style type="text/css">
+        <!--
+        -->
+      </style>
+  </head>
+  <body height="100%">
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player" height="90%"></div>
+    <div id="control" style="width: 100%; height: 10%; text-align: center;">
+        <button onclick="alert(data);"><font size="4">◀︎◀︎</font></button>
+        <span>__</span>
+        <button onclick=""><font size="6">▶︎</font></button>
+        <span>__</span>
+        <button onclick=""><font size="6">■</font></button>
+        <span>__</span>
+        <button onclick=""><font size="4">▶︎▶︎</font></button>
+    </div>
+
+    <script>
+      // 1. set datas(JavaFXでこの部分を出力します。)
+//      var data = ["S0LbTzCrkiw"
+//    		, "uzEK0owHXfI"
+//    		, "2oKiPesbvB0"];
+
+      var counter = 0;
+      // 2. This code loads the IFrame Player API code asynchronously.
+      let tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      let firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: window.innerHeight * 0.9,
+          width: '100%',
+          videoId: data[counter],
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+	  //counter++;
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        counter = 1;
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(nextVideo, 15000);
+          event.target.playVideo();
+          // done = true;
+        } else if (event.data == YT.PlayerState.ENDED) {
+//          event.target.loadVideoById(data[counter]);
+        }
+      }
+      // next video
+      function nextVideo() {
+        if (counter == data.length) {
+          counter = 0;
+        }
+        player.loadVideoById(data[counter]);
+        counter++;
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+    </script>
+  </body>
+</html>
