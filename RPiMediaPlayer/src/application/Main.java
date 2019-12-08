@@ -17,7 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker.State;
+import javafx.event.EventHandler;
 
 /**
  * ラズパイ上でJavaFXを起動、Youtubeなどのメディアプレーヤーアプリを作成。
@@ -35,6 +40,8 @@ public class Main extends Application {
 	private double windowWidth;
 	/** 最大ウィンドウサイズ(高さ) */
 	private int windowHeight;
+	/** JSに渡すURLの配列文字列 */
+	private String videoIds;
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -45,9 +52,17 @@ public class Main extends Application {
 			// WebView(ブラウザ)の作成
 			WebView browser = new WebView();
 			WebEngine engine = browser.getEngine();
-			String aaa = getClass().getResource("iframe.html").toExternalForm();
-			System.out.println(aaa);
-			engine.load(aaa);
+			// JSの起動
+			engine.executeScript("var data = " + videoIds + ";");
+			// イベントハンドラ
+			engine.setOnAlert(event -> System.out.println("Data: " + event.getData()));
+//			ChangeListener listener = createDomCntlListener();
+//			engine.getLoadWorker().stateProperty().addListener();
+
+			// ロードするURI(ファイルを指定するのでURI)
+			String htmlURI = getClass().getResource("iframePlayer.html").toExternalForm();
+			System.out.println(htmlURI);
+			engine.load(htmlURI);
 
 			root.setCenter(browser);
 			// 画面を表示する土台(シーン)を作成
@@ -77,6 +92,25 @@ public class Main extends Application {
 		initWindowInfo();
 		
 	}
+
+	/**
+	 * DOM操作用のリスナークラスを返す
+	 */
+	private ChangeListener createDomCntlListener() {
+		ChangeListener listener = new ChangeListener<State>() {
+			@Override
+			public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+				if (newValue == State.SUCCEEDED) {
+					System.out.println(newValue.name());
+				}
+			}
+		};
+		return listener;
+	}
+
+	private EventHandler<WebEvent<String>> getAlertEvent() {
+		return null;
+	}
 	/*****************************************
 	 * 必要な処理を行うメソッド群(JUniテストを行う)*
 	 *****************************************/
@@ -88,10 +122,17 @@ public class Main extends Application {
 	public void loadProperties() {
 		// java.nio.PathでJavaFxのPathではない
 		Path propFile = Paths.get("resources/application.properties");
+		final StringBuilder build = new StringBuilder();
+		build.append("[");
 		try {
 			// プロパティファイルの読み込み
 			prop.load(Files.newInputStream(propFile));
 			keySet = convertKeySet(prop.keySet());
+			keySet.forEach(key -> build.append("\"" + prop.get(key) + "\","));
+			build.setLength(build.length() - 1);
+			build.append("]");
+			System.out.println("Build: " + build.toString());
+			videoIds = build.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("System Error: can not read application.properties");
