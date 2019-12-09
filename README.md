@@ -15,3 +15,6 @@
 4. 次画面ロード
 5. ロード無しで次画面表示
 6. 終了
+
+## 実行動画(PCでテスト)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/681y4vCLhkw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
