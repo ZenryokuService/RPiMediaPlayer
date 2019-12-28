@@ -15,3 +15,6 @@
 4. 次画面ロード
 5. ロード無しで次画面表示
 6. 終了
+
+## 実行動画(PCでテスト)
+https://www.youtube.com/watch?v=681y4vCLhkw
