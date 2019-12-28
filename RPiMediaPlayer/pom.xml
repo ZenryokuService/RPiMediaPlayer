@@ -10,7 +10,14 @@
       <java.version>1.8</java.version>
       <maven.compiler.target>${java.version}</maven.compiler.target>
       <maven.compiler.source>${java.version}</maven.compiler.source>
+      
   </properties>  
+  <repositories>
+    <repository>
+       <id>openjfx</id>
+       <url>https://mvnrepository.com/artifact/org.openjfx/javafx</url>
+    </repository>
+  </repositories>
 <!-- 使用したいライブラリ(依存性)の設定 -->
   <dependencies>
     <dependency>
@@ -19,6 +26,13 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+	<!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+	<dependency>
+	    <groupId>org.openjfx</groupId>
+	    <artifactId>javafx</artifactId>
+	    <version>11</version>
+	    <type>pom</type>
+	</dependency>
   </dependencies>
 <!-- ビルドの設定 -->
   <build>
