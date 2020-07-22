@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
@@ -16,13 +15,9 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebEvent;
 import javafx.scene.web.WebView;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
 import javafx.event.EventHandler;
 
 /**
@@ -94,21 +89,7 @@ public class Main extends Application {
 		
 	}
 
-	/**
-	 * DOM操作用のリスナークラスを返す
-	 */
-	private ChangeListener createDomCntlListener() {
-		ChangeListener listener = new ChangeListener<State>() {
-			@Override
-			public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-				if (newValue == State.SUCCEEDED) {
-					System.out.println(newValue.name());
-				}
-			}
-		};
-		return listener;
-	}
-
+	/** デバック用 */
 	private EventHandler<WebEvent<String>> getAlertEvent() {
 		return null;
 	}
@@ -164,19 +145,6 @@ public class Main extends Application {
 	 */
 	public String getProperty(String key) {
 		return prop.getProperty(key);
-	}
-
-	/**
-	 * 取得したSet<Object>をSet<String>に変換する
-	 * @param set Propertiesクラスから取得したSet
-	 * @return 作成したSet<String>
-	 */
-	private Set<String> convertKeySet(Set<Object> set) {
-		Set<String> newSet = new HashSet<String>();
-		set.forEach(obj -> {
-			newSet.add(obj.toString());
-		});
-		return newSet;
 	}
 
 	/**
