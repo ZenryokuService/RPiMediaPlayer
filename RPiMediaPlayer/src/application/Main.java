@@ -2,6 +2,7 @@ package application;
 	
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -121,14 +122,23 @@ public class Main extends Application {
 	 */
 	public void loadProperties() {
 		// java.nio.PathでJavaFxのPathではない
-		Path propFile = Paths.get("resources/application.properties");
+		Path propFile = Paths.get("resources/application.csv");
 		final StringBuilder build = new StringBuilder();
 		build.append("[");
 		try {
-			// プロパティファイルの読み込み
-			prop.load(Files.newInputStream(propFile));
-			keySet = convertKeySet(prop.keySet());
-			keySet.forEach(key -> build.append("\"" + prop.get(key) + "\","));
+			// CSVィファイルの読み込み
+			BufferedReader reader = Files.newBufferedReader(propFile);
+			String line = null;
+			reader.readLine();
+			while((line = reader.readLine()) != null) {
+				String[] datas = line.split(",");
+				build.append("[");
+				for(String data : datas) {
+					build.append("\"" + data + "\",");
+				}
+				build.setLength(build.length() - 1);
+				build.append("], ");
+			}
 			build.setLength(build.length() - 1);
 			build.append("]");
 			System.out.println("Build: " + build.toString());
