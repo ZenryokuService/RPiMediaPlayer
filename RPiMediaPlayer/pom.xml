@@ -10,8 +10,8 @@
       <java.version>1.8</java.version>
       <maven.compiler.target>${java.version}</maven.compiler.target>
       <maven.compiler.source>${java.version}</maven.compiler.source>
-      
-  </properties>  
+
+  </properties>
   <repositories>
     <repository>
        <id>openjfx</id>
@@ -60,7 +60,7 @@
         <archive>
           <manifest>
             <addClasspath>true</addClasspath>
-            <mainClass>zenryokuservice.socket.server.SocketServerBasic</mainClass>
+            <mainClass>application.Main</mainClass>
             <classpathPrefix>dependency-jars/</classpathPrefix>
           </manifest>
           </archive>
